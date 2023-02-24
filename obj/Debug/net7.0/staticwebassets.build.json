@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "v5FRm2wffUltKdsfxYSlh9jFJCbt1tvakbdwMeVJx0I=",
+  "Source": "QuoteGenius-Server",
+  "BasePath": "_content/QuoteGenius-Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
