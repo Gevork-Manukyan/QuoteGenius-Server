@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuoteModel;
-using System.Diagnostics.Metrics;
 
 namespace QuoteGenius_Server.Controllers;
 

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace QuoteModel;
 
 [Table("Author")]
 public partial class Author
 {
-    [Key]
-    [Column("id")]
     public int Id { get; set; }
 
     [Column("name")]
@@ -28,6 +23,5 @@ public partial class Author
     [StringLength(10)]
     public string Gender { get; set; } = null!;
 
-    [InverseProperty("Author")]
     public virtual ICollection<Quote> Quotes { get; } = new List<Quote>();
 }
