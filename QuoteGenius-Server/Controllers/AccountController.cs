@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using QuoteGenius_Server.DTOs;
 using QuoteModel;
@@ -41,5 +42,20 @@ namespace QuoteGenius_Server.Controllers
                 Token = jwt
             });
         }
+
+        [HttpPost("IsAdmin")]
+        [Authorize]
+        public async Task<IActionResult> IsAdmin(string token)
+        {
+            QuoteGeniusUser? user = await _userManager.GetUserAsync(User);
+            bool isAdmin = false;
+            isAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
+
+            return Ok(new
+            {
+                IsAdmin = isAdmin
+            });
+        }
+
     }
 }
