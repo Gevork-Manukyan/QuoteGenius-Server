@@ -45,17 +45,21 @@ namespace QuoteGenius_Server.Controllers
 
         [HttpPost("IsAdmin")]
         [Authorize]
-        public async Task<IActionResult> IsAdmin(string token)
+        public async Task<IActionResult> IsAdmin()
         {
+            string token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var tokenData = _jwtHandler.GetPrincipalFromToken(token);
+
             QuoteGeniusUser? user = await _userManager.GetUserAsync(User);
-            bool isAdmin = false;
-            isAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
+            // bool isAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
 
             return Ok(new
             {
-                IsAdmin = isAdmin
+                // IsAdmin = isAdmin
+                tokenData,
             });
         }
+
 
     }
 }
