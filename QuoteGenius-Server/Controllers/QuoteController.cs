@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QuoteGenius_Server.DTOs;
 using QuoteModel;
+using System.Threading.Tasks;
+
 
 namespace QuoteGenius_Server.Controllers;
 
@@ -31,6 +34,29 @@ public class QuoteController : ControllerBase
     {
         Quote? quote = await _context.Quotes.FindAsync(id);
         return quote == null ? NotFound() : quote;
+    }
+
+    // GET: api/Quotes/WithAuthors
+    [HttpGet("WithAuthors")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<QuoteWithAuthor>>> GetQuotesWithAuthors()
+    {
+        var quotesWithAuthors = await _context.Quotes
+            .Include(q => q.Author)
+            .Select(q => new QuoteWithAuthor
+            {
+                QuoteId = q.Id,
+                QuoteText = q.Text,
+                DatePublished = q.DatePublished,
+                AuthorId = q.Author.Id,
+                AuthorName = q.Author.Name,
+                AuthorBirthday = q.Author.Birthday,
+                AuthorRace = q.Author.Race,
+                AuthorGender = q.Author.Gender
+            })
+            .ToListAsync();
+
+        return quotesWithAuthors;
     }
 
     // PUT: api/Quotes/5

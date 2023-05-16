@@ -1,8 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QuoteModel;
 
-namespace WorldCitiesApi.Controllers
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+
+namespace QuoteGenius_Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -80,12 +86,125 @@ namespace WorldCitiesApi.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            // Seed quotes and authors
+            await ImportQuotesAndAuthors();
+
             return new JsonResult(new
             {
                 addedUserList.Count,
                 Users = addedUserList
             });
-
         }
+
+        [HttpPost("QuotesAndAuthors")]
+        public async Task<IActionResult> ImportQuotesAndAuthors()
+        {
+            // Create a list to store added quotes
+            List<Quote> addedQuoteList = new List<Quote>();
+
+            // Create authors
+            Author author1 = new Author
+            {
+                Name = "Author 1",
+                Birthday = new DateTime(1990, 1, 1),
+                Race = "Race 1",
+                Gender = "Male"
+            };
+            _context.Authors.Add(author1);
+
+            Author author2 = new Author
+            {
+                Name = "Author 2",
+                Birthday = new DateTime(1995, 2, 2),
+                Race = "Race 2",
+                Gender = "Female"
+            };
+            _context.Authors.Add(author2);
+
+            Author author3 = new Author
+            {
+                Name = "Author 3",
+                Birthday = new DateTime(1985, 3, 3),
+                Race = "Race 3",
+                Gender = "Female"
+            };
+            _context.Authors.Add(author3);
+
+            Author author4 = new Author
+            {
+                Name = "Author 4",
+                Birthday = new DateTime(1980, 4, 4),
+                Race = "Race 4",
+                Gender = "Male"
+            };
+            _context.Authors.Add(author4);
+
+            Author author5 = new Author
+            {
+                Name = "Author 5",
+                Birthday = new DateTime(1992, 5, 5),
+                Race = "Race 5",
+                Gender = "Male"
+            };
+            _context.Authors.Add(author5);
+
+            await _context.SaveChangesAsync();
+
+            // Create quotes
+            Quote quote1 = new Quote
+            {
+                Text = "Quote 1",
+                DatePublished = new DateTime(2023, 1, 1),
+                AuthorId = author1.Id
+            };
+            _context.Quotes.Add(quote1);
+            addedQuoteList.Add(quote1);
+
+            Quote quote2 = new Quote
+            {
+                Text = "Quote 2",
+                DatePublished = new DateTime(2023, 2, 2),
+                AuthorId = author2.Id
+            };
+            _context.Quotes.Add(quote2);
+            addedQuoteList.Add(quote2);
+
+            Quote quote3 = new Quote
+            {
+                Text = "Quote 3",
+                DatePublished = new DateTime(2023, 3, 3),
+                AuthorId = author3.Id
+            };
+            _context.Quotes.Add(quote3);
+            addedQuoteList.Add(quote3);
+
+            Quote quote4 = new Quote
+            {
+                Text = "Quote 4",
+                DatePublished = new DateTime(2023, 4, 4),
+                AuthorId = author4.Id
+            };
+            _context.Quotes.Add(quote4);
+            addedQuoteList.Add(quote4);
+
+            Quote quote5 = new Quote
+            {
+                Text = "Quote 5",
+                DatePublished = new DateTime(2023, 5, 5),
+                AuthorId = author5.Id
+            };
+            _context.Quotes.Add(quote5);
+            addedQuoteList.Add(quote5);
+
+            await _context.SaveChangesAsync();
+
+            return new JsonResult(new
+            {
+                addedQuoteList.Count,
+                Quotes = addedQuoteList
+            });
+        }
+
     }
+
 }
