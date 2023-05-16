@@ -46,26 +46,16 @@ namespace QuoteGenius_Server.Controllers
 
         [HttpGet("IsAdmin")]
         [Authorize]
-        public async Task<IActionResult> IsAdmin()
+        public Task<IActionResult> IsAdmin()
         {
             string token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
             var tokenData = _jwtHandler.GetPrincipalFromToken(token);
+            var isAdmin = tokenData!.IsInRole("Administrator");
 
-            string? username = tokenData!.FindFirst("admin")?.Value;
-            var test3 = tokenData.Claims.ToList();
-            var isAdmin = tokenData.IsInRole("Administrator");
-            var one = test3[0].Value;
-            var two = test3[1].Value;
-            var three = test3[2].Value;
-
-
-            // QuoteGeniusUser? user = await _userManager.GetUserAsync(User);
-            // bool isAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
-
-            return Ok(new
+            return Task.FromResult<IActionResult>(Ok(new
             {
                 IsAdmin = isAdmin
-            });
+            }));
         }
 
 
