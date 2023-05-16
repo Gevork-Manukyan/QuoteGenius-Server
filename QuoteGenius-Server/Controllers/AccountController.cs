@@ -46,16 +46,21 @@ namespace QuoteGenius_Server.Controllers
 
         [HttpGet("IsAdmin")]
         [Authorize]
-        public Task<IActionResult> IsAdmin()
+        public IActionResult IsAdmin()
         {
             string token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
             var tokenData = _jwtHandler.GetPrincipalFromToken(token);
             var isAdmin = tokenData!.IsInRole("Administrator");
 
-            return Task.FromResult<IActionResult>(Ok(new
+            if (!isAdmin)
+            {
+                return StatusCode(403);
+            }
+
+            return Ok(new
             {
                 IsAdmin = isAdmin
-            }));
+            });
         }
 
 
