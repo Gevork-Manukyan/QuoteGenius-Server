@@ -123,14 +123,10 @@ public class QuoteController : ControllerBase
     [Authorize]
     public async Task<IActionResult> PutQuoteWithAuthor(int id, QuoteWithAuthor quoteWithAuthor)
     {
-        Console.WriteLine("CHECK POINT 1");
-
         if (id != quoteWithAuthor.QuoteId)
         {
             return BadRequest();
         }
-
-        Console.WriteLine("CHECK POINT 2");
 
         var quote = await _context.Quotes.FindAsync(id);
 
@@ -139,8 +135,6 @@ public class QuoteController : ControllerBase
             return NotFound();
         }
 
-        Console.WriteLine("CHECK POINT 3");
-
         var author = await _context.Authors.FindAsync(quoteWithAuthor.AuthorId);
 
         if (author == null)
@@ -148,7 +142,6 @@ public class QuoteController : ControllerBase
             return NotFound();
         }
 
-        Console.WriteLine("CHECK POINT 4");
 
         // Update the quote properties
         quote.Text = quoteWithAuthor.QuoteText;
