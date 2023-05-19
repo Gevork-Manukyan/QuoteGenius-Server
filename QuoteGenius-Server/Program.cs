@@ -87,10 +87,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
-}
+
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -28,5 +28,8 @@
 	<ItemGroup>
 		<ProjectReference Include="..\QuoteModel\QuoteModel.csproj" />
 	</ItemGroup>
+	<PropertyGroup>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	</PropertyGroup>
 
 </Project>
